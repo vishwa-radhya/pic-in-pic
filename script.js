@@ -16,7 +16,9 @@ async function selectMediaStream(){
         if (err.name === 'NotAllowedError') {
             console.log('Permission denied: User did not grant screen sharing permission.');
             message.textContent='Select the TAB and  click share.'
-        } else {
+        }else if(isMobileBrowser()){
+            alert('Not Supported For Mobile Browsers.');
+        }else {
             alert('Error Occured Please Try Again Or Refresh The Page');
         }
     }
@@ -27,6 +29,8 @@ async function selectMediaStream(){
     }catch(err){
         if(err.name==='InvalidStateError'){
             message.textContent='Click the START first to share the screen.';
+        }else if(isMobileBrowser()){
+            alert('Not Supported For Mobile Browsers.');
         }else{
             alert('Error Occured Please Try Again Or Refresh The Page');
         }
@@ -47,3 +51,8 @@ button2.addEventListener('click',()=>{
     button1.disabled=false;
     button2.disabled=false;
 })
+
+function isMobileBrowser() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+}
